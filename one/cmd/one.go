@@ -8,5 +8,6 @@ func main() {
 	// another major feature 2
 	// small fix
 	// another small fix
-	one.One(1, 2, 3)
+	// breaking change
+	one.One(1, 2)
 }
