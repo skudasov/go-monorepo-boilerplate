@@ -143,6 +143,6 @@ jobs:
           goos: ${{ matrix.platform }}
           goarch: ${{ matrix.goarch }}
           release_name: ${{ env.PACKAGE_NAME }}
-          release_tag: ${{ env.VERSION }}
+          release_tag: ${{ env.PACKAGE_NAME}}-${{ env.VERSION }}
           project_path: ${{ env.PACKAGE_NAME }}
           asset_name: ${{ env.PACKAGE_NAME }}-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.goarch }}
