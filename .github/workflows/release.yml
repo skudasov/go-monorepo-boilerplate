@@ -8,6 +8,8 @@ permissions:
   packages: write
 
 jobs:
+  create_release:
+
   release_binaries:
     strategy:
       matrix:
@@ -38,7 +40,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sudo apt-get install -y gh
-          gh release create "${{ env.VERSION }}" --title "${{ env.PACKAGE_NAME }} v${{ env.VERSION }}" --notes "Release for ${{ env.PACKAGE_NAME }} version ${{ env.VERSION }}"
+          gh release create "${{ env.VERSION }}" --title "${{ env.PACKAGE_NAME }} ${{ env.VERSION }}" --notes "Release for ${{ env.PACKAGE_NAME }} version ${{ env.VERSION }}" || true
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
