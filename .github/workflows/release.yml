@@ -53,12 +53,37 @@ jobs:
 
           # Set the release notes as an environment variable for use in the next step
           echo "RELEASE_NOTES=$COMMITS" >> $GITHUB_ENV
+      - name: Read Additional Release Notes from File
+        id: read_additional_notes
+        run: |
+          # Check if the .release_notes directory exists and the file for the current version is present
+          if [ -f ".release_notes/${{ env.VERSION }}.md" ]; then
+            # Read the content of the file
+            ADDITIONAL_NOTES=$(cat ".release_notes/${{ env.VERSION }}.md")
+
+            # Surround the additional notes with newlines
+            ADDITIONAL_NOTES="\n\n${ADDITIONAL_NOTES}\n\n"
+
+            # Append the additional notes to the existing release notes
+            FULL_RELEASE_NOTES="${{ env.RELEASE_NOTES }}${ADDITIONAL_NOTES}"
+
+            # Output the combined release notes
+            echo "Full Release Notes:"
+            echo "$FULL_RELEASE_NOTES"
+          else
+            # Print error message and fail the pipeline if the file is not found
+            echo "Error: Release notes file '.release_notes/${{ env.VERSION }}.md' not found."
+            exit 1
+          fi
+
+          # Set the full release notes as an environment variable
+          echo "FULL_RELEASE_NOTES=$FULL_RELEASE_NOTES" >> $GITHUB_ENV
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sudo apt-get install -y gh
-          gh release create "${{ env.VERSION }}" --title "${{ env.PACKAGE_NAME }} ${{ env.VERSION }}" --notes "Release for ${{ env.PACKAGE_NAME }} version ${{ env.VERSION }}\n\n${{ env.RELEASE_NOTES }}" || true
+          gh release create "${{ env.VERSION }}" --title "${{ env.PACKAGE_NAME }} ${{ env.VERSION }}" --notes "Release for ${{ env.PACKAGE_NAME }} version ${{ env.VERSION }}\n\n${{ env.FULL_RELEASE_NOTES }}" || true
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
