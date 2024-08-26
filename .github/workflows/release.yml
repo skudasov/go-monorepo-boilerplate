@@ -43,9 +43,11 @@ jobs:
           if [ -z "$LAST_TAG" ]; then
             LAST_TAG=$(git rev-list --max-parents=0 HEAD)
           fi
+          
+          TAG_REF="${GITHUB_REF#refs/tags/}"
 
           # Get the commits between the last tag and the current tag
-          COMMITS=$(git log "$LAST_TAG..$VERSION" --pretty=format:"- %s (%h)")
+          COMMITS=$(git log "$TAG_REF..$VERSION" --pretty=format:"- %s (%h)")
 
           # Output the release notes
           echo "Release notes:"
