@@ -37,7 +37,7 @@ jobs:
         id: generate_release_notes
         run: |
           # Find the latest tag for the same package that is not the current tag
-          LAST_TAG=$(git tag --list "${{ env.PACKAGE_NAME }}/v*" --sort=-v:refname | grep -v "${{ env.VERSION }}" | head -n 1)
+          LAST_TAG=$(git tag --sort=creatordate --merged | grep "^$(git describe --tags --abbrev=0 | cut -d'/' -f1)/v[0-9]*\.[0-9]*\.[0-9]*$" | grep -B1 -A1 $(git describe --tags --abbrev=0) | head -n1)
 
           # If no previous tag is found, use the initial commit as the reference
           if [ -z "$LAST_TAG" ]; then
@@ -49,7 +49,7 @@ jobs:
           TAG_REF="${GITHUB_REF#refs/tags/}"
 
           # Get the commits between the last tag and the current tag
-          COMMITS=$(git log "$TAG_REF..$VERSION" --pretty=format:"- %s (%h)")
+          COMMITS=$(git log "$LAST_TAG..$PACKAGE_NAME/$VERSION" --pretty=format:"- %s (%h)")
 
           # Output the release notes
           echo "Release notes:"
