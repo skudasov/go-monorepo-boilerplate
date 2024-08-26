@@ -2,7 +2,7 @@
 
 This repository serves as an example of using multiple modules/binaries under one git with multiple tags according to official [docs](https://go.dev/doc/modules/managing-source)
 
-## Packages release process
+## Packages and binaries release process
 1. Update module you'd like to release. It is preferable that you work on one module in one PR, but it is possible to release multiple packages from one commit.
 
 2. Merge your PR. Then add module tags in format `mod/vX.X.X` on the `main` branch
