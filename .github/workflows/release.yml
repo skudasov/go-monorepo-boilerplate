@@ -85,7 +85,6 @@ jobs:
             echo "Error: Release notes file '.release_notes/${{ env.VERSION }}.md' not found."
             exit 1
           fi
-
 #      - name: Set up Go
 #        uses: actions/setup-go@v2
 #        with:
