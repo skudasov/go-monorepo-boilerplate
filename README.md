@@ -3,8 +3,9 @@
 This repository serves as an example of using multiple modules/binaries under one git with multiple tags according to official [docs](https://go.dev/doc/modules/managing-source)
 
 ## Packages release process
-1. Update modules
-2. Tag each module with `mod/vX.X.X`, annotated tag
+1. Update module you'd like to release. It is preferable that you work on one module in one PR, but it is possible to release multiple packages from one commit.
+
+2. Merge your PR. Then add module tags in format `mod/vX.X.X` on the `main` branch
     ```
     git tag one/v1.3.0
     git tag two/v1.2.0
@@ -14,18 +15,13 @@ This repository serves as an example of using multiple modules/binaries under on
 
    Preferred way is to use `lightweight tags` like `git tag mod/vX.X.X`
 
-3. Update the deps in consumer, **use commit that has the tag**
+3. After your commit on `main` branch has corresponding tags you can consume it via `go get`
     ```
    go get github.com/skudasov/go-monorepo-boilerplate/one@v1.3.0
    go get github.com/skudasov/go-monorepo-boilerplate/two@v1.2.0
     ```
    In contradiction to official [docs] `require` won't work in you'll use `module/vX.X.X` tag so if you want to update `go.mod` manually use tag notation without module, ex.: `github.com/skudasov/go-monorepo-boilerplate/one v1.2.0`
 
-## Binaries release process (CLI apps)
-
-To release your app you should add a `cmd` directory inside your `package`, for example `three/cmd` and update an [action](.github/workflows/release.yml)
-```
-        app_path: [ "one/cmd", "two/cmd", "three/cmd" ]
-```
-
-Then all your binaries will be built for default platforms [here](https://github.com/skudasov/go-monorepo-boilerplate/releases)
+4. Your module may have a binary release. Entrypoint must be under `cmd` and named as a package.
+   
+   After pushing a tag workflow will automatically create a release for `$package/vX.X.X` and publish binaries to [releases](https://github.com/skudasov/go-monorepo-boilerplate/releases) page
