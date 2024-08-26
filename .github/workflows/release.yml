@@ -23,3 +23,4 @@ jobs:
           goos: ${{ matrix.platform }}
           goarch: ${{ matrix.goarch }}
           project_path: ${{ matrix.app_path }}
+          asset_name: ${{ matrix.app_path }}
