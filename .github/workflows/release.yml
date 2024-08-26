@@ -38,7 +38,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           sudo apt-get install -y gh
-          echo "${GITHUB_TOKEN}" | gh auth login --with-token
           gh release create "${{ env.VERSION }}" --title "${{ env.PACKAGE_NAME }} v${{ env.VERSION }}" --notes "Release for ${{ env.PACKAGE_NAME }} version ${{ env.VERSION }}"
       - uses: wangyoucao577/go-release-action@v1
         with:
