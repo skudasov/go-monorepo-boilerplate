@@ -1,13 +1,18 @@
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 permissions:
   contents: write
   packages: write
 
 jobs:
-  release-linux-amd64:
+  release_binaries:
+    strategy:
+      matrix:
+        platform: [ "linux", "darwin" ]
+        goarch: [ "amd64", "arm64" ]
+        app_path: [ "one/cmd", "two/cmd" ]
     name: release linux/amd64
     runs-on: ubuntu-latest
     steps:
@@ -15,17 +20,6 @@ jobs:
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: linux
-          goarch: amd64
-          project_path: one/cmd
-  release-linux-arm64:
-    name: release linux/arm64
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: wangyoucao577/go-release-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          goos: darwin
-          goarch: arm64
-          project_path: two/cmd
+          goos: ${{ matrix.platform }}
+          goarch: ${{ matrix.goarch }}
+          project_path: ${{ matrix.app_path }}
