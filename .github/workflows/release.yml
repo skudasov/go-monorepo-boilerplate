@@ -10,6 +10,7 @@ permissions:
 jobs:
   release_binaries:
     strategy:
+      fail-fast: false
       matrix:
         platform: [ "linux", "darwin" ]
         goarch: [ "amd64", "arm64" ]
