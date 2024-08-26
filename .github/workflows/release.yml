@@ -23,19 +23,19 @@ jobs:
           APP_PATH: ${{ matrix.app_path }}
         id: split
         run: echo "::set-output name=asset_name::$(echo ${{ matrix.app_path }} | sed 's|/.*||')"
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.22.6'
-      - name: Run Go script
-        working-directory: gittags
-        run: |
-          go run main.go
-          echo $GITHUB_ENV
+#      - name: Set up Go
+#        uses: actions/setup-go@v2
+#        with:
+#          go-version: '1.22.6'
+#      - name: Run Go script
+#        working-directory: gittags
+#        run: |
+#          go run main.go
+#          echo $GITHUB_ENV
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.platform }}
           goarch: ${{ matrix.goarch }}
           project_path: ${{ matrix.app_path }}
-          asset_name: ${{ steps.split.outputs.asset_name }}-${{ matrix.platform }}-${{ matrix.goarch }}
+          asset_name: ${{ steps.split.outputs.asset_name }}-${RELEASE_TAG}-${{ matrix.platform }}-${{ matrix.goarch }}
