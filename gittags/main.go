@@ -64,7 +64,7 @@ func main() {
 
 			// Create the environment variable name and value
 			envVarName := fmt.Sprintf("GIT_TAG_%s_LATEST", strings.ToUpper(packageName))
-			envVarValue := fmt.Sprintf("%s/v%s", packageName, version)
+			envVarValue := fmt.Sprintf("v%s", version)
 
 			// Write to the GITHUB_ENV file
 			_, err = file.WriteString(fmt.Sprintf("%s=%s\n", envVarName, envVarValue))
