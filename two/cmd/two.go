@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	two.Two(1, 2, 3)
+	two.Two(1, 2)
 }
