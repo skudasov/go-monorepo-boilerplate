@@ -9,5 +9,5 @@ func main() {
 	// small fix
 	// another small fix
 	// breaking change
-	one.One(1, 2)
+	one.One(1, 2, 3)
 }
