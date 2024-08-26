@@ -96,8 +96,15 @@ jobs:
       - name: Run gorelease to check for breaking changes
         id: check_breaking_changes
         run: |
+          # Find the latest tag for the same package that is not the current tag
+          LAST_TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
+          
+          TAG="${LAST_TAG#*/}"
+          
+          echo "Cleaned up tag: ${TAG}"
+
           # Run gorelease to check for breaking changes
-          BREAKING_CHANGES=$(gorelease check --format=json 2>&1 | jq -r '.Diagnostics[] | select(.Severity == "error") | .Message')
+          BREAKING_CHANGES=$(gorelease -base "${TAG}" -version "${VERSION}")
 
           # Output breaking changes
           echo "Breaking Changes:"
@@ -126,3 +133,5 @@ jobs:
           release_tag: ${{ env.VERSION }}
           project_path: ${{ env.PACKAGE_NAME }}
           asset_name: ${{ env.PACKAGE_NAME }}-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.goarch }}
+
+          TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
