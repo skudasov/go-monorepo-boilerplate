@@ -7,5 +7,6 @@ func main() {
 	// another major feature
 	// another major feature 2
 	// small fix
+	// another small fix
 	one.One(1, 2)
 }
