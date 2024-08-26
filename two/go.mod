@@ -1,4 +1,4 @@
-module github.com/skudasov/go-monorepo-boilerplate/two
+module github.com/skudasov/go-monorepo-boilerplate/two/v2
 
 go 1.22.6
 
