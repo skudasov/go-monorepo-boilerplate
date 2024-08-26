@@ -133,5 +133,3 @@ jobs:
           release_tag: ${{ env.VERSION }}
           project_path: ${{ env.PACKAGE_NAME }}
           asset_name: ${{ env.PACKAGE_NAME }}-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.goarch }}
-
-          TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
