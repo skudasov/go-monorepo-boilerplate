@@ -44,9 +44,10 @@ jobs:
           echo "Version: ${{ env.VERSION }}"
       - uses: wangyoucao577/go-release-action@v1
         with:
-          release_tag:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.platform }}
           goarch: ${{ matrix.goarch }}
+          release_name: ${{ env.PACKAGE_NAME }}
+          release_tag: ${{ env.VERSION }}
           project_path: ${{ env.PACKAGE_NAME }}
           asset_name: ${{ env.PACKAGE_NAME }}-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.goarch }}
