@@ -54,6 +54,7 @@ jobs:
           # Set the release notes as an environment variable for use in the next step
           echo "RELEASE_NOTES=$COMMITS" >> $GITHUB_ENV
       - name: Read Additional Release Notes from File
+        working-directory: ${{ env.PACKAGE_NAME }}
         id: read_additional_notes
         run: |
           # Check if the .release_notes directory exists and the file for the current version is present
