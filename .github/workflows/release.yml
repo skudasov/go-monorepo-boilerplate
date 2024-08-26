@@ -104,8 +104,6 @@ jobs:
           
           echo "Cleaned up tag: ${TAG}"
           
-          gorelease -base "${TAG}" -version "${VERSION}"
-
           # Run gorelease to check for breaking changes
           BREAKING_CHANGES=$(gorelease -base "${TAG}" -version "${VERSION}")
 
