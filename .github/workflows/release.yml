@@ -31,11 +31,7 @@ jobs:
         working-directory: gittags
         run: |
           go run main.go
-          printenv
-      - name: Show Git Tag Environment Variables
-        run: |
-          echo "Environment variables set by the script:"
-          printenv | grep 'GIT_TAG_'
+          echo $GITHUB_ENV
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
