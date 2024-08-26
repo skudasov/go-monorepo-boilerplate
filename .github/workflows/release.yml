@@ -38,6 +38,11 @@ jobs:
       - name: Find Last Tag for Package and Generate Release Notes
         id: generate_release_notes
         run: |
+          # Extract the package name and version from the tag
+          TAG_REF="${GITHUB_REF#refs/tags/}"
+          PACKAGE_NAME=$(echo "$TAG_REF" | cut -d'/' -f1)
+          VERSION=$(echo "$TAG_REF" | cut -d'/' -f2)
+
           # Find the latest tag for the same package that is not the current tag
           LAST_TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
 
@@ -45,10 +50,8 @@ jobs:
           if [ -z "$LAST_TAG" ]; then
             LAST_TAG=$(git rev-list --max-parents=0 HEAD)
           fi
-          
+
           echo "Last tag found: $LAST_TAG"
-          
-          TAG_REF="${GITHUB_REF#refs/tags/}"
 
           # Get the commits between the last tag and the current tag
           COMMITS=$(git log "$LAST_TAG..$PACKAGE_NAME/$VERSION" --pretty=format:"- %s (%h)")
@@ -57,8 +60,34 @@ jobs:
           echo "Release notes:"
           echo "$COMMITS"
 
-          # Set the release notes as an environment variable for use in the next step
-          echo "RELEASE_NOTES=$COMMITS" >> $GITHUB_ENV
+          # Safely set the release notes as an environment variable using heredoc and EOF
+          echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+#      - name: Find Last Tag for Package and Generate Release Notes
+#        id: generate_release_notes
+#        run: |
+#          # Find the latest tag for the same package that is not the current tag
+#          LAST_TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
+#
+#          # If no previous tag is found, use the initial commit as the reference
+#          if [ -z "$LAST_TAG" ]; then
+#            LAST_TAG=$(git rev-list --max-parents=0 HEAD)
+#          fi
+#
+#          echo "Last tag found: $LAST_TAG"
+#
+#          TAG_REF="${GITHUB_REF#refs/tags/}"
+#
+#          # Get the commits between the last tag and the current tag
+#          COMMITS=$(git log "$LAST_TAG..$PACKAGE_NAME/$VERSION" --pretty=format:"- %s (%h)")
+#
+#          # Output the release notes
+#          echo "Release notes:"
+#          echo "$COMMITS"
+#
+#          # Set the release notes as an environment variable for use in the next step
+#          echo "RELEASE_NOTES=$COMMITS" >> $GITHUB_ENV
       - name: Read Additional Release Notes from File
         working-directory: ${{ env.PACKAGE_NAME }}
         id: read_additional_notes
