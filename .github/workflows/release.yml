@@ -106,7 +106,7 @@ jobs:
           echo "Current tag: ${VERSION}"
 
           # Run gorelease to check for breaking changes, capture output and exit code
-          gorelease_output=$(gorelease -base "${TAG}" -version "${VERSION}" 2>&1)
+          gorelease_output=$(gorelease -base "${TAG}" 2>&1)
           gorelease_exit_code=$?
 
           # Check if gorelease command failed
