@@ -104,6 +104,8 @@ jobs:
 
           echo "Previous tag: ${TAG}"
           echo "Current tag: ${VERSION}"
+          
+          gorelease -base "${TAG}"
 
           # Run gorelease to check for breaking changes, capture output and exit code
           gorelease_output=$(gorelease -base "${TAG}" 2>&1)
