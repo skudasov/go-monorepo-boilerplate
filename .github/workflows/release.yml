@@ -48,5 +48,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.platform }}
           goarch: ${{ matrix.goarch }}
-          project_path: ${{ matrix.app_path }}
+          project_path: ${{ env.PACKAGE_NAME }}
           asset_name: ${{ env.PACKAGE_NAME }}-${{ env.VERSION }}-${{ matrix.platform }}-${{ matrix.goarch }}
