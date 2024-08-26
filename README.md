@@ -6,12 +6,15 @@ This repository serves as an example of using multiple modules under one git wit
 1. Update modules
 2. Tag each module with `mod/vX.X.X`, annotated tag
     ```
-    git tag -a one/v1.1.0 -m "go mod package tag for one"
-    git tag -a two/v1.0.0 -m "go mod package tag for two"
+    git tag one/v1.3.0
+    git tag two/v1.2.0
     ```
+   Annotated tags also work, but you need to pull them by commit like `go get ...@$SHA` then `go.mod` will be updated with a proper tag
+   Preferred way is to use `lightweight tags` like `git tag mod/vX.X.X`
+
 3. Update the deps in consumer, **use commit that has the tag**
     ```
-   export UPDATE_SHA=$(git rev-parse HEAD)
-   go get github.com/skudasov/go-monorepo-boilerplate/one@${UPDATE_SHA}
-   go get github.com/skudasov/go-monorepo-boilerplate/two@${UPDATE_SHA}
+   go get github.com/skudasov/go-monorepo-boilerplate/one@v1.3.0
+   go get github.com/skudasov/go-monorepo-boilerplate/two@v1.2.0
     ```
+   In contradiction to official [docs] `require` won't work in you'll use `module/vX.X.X` tag so if you want to update `go.mod` manually use tag notation without module, ex.: `github.com/skudasov/go-monorepo-boilerplate/one v1.2.0`
