@@ -8,8 +8,6 @@ permissions:
   packages: write
 
 jobs:
-  create_release:
-
   release_binaries:
     strategy:
       matrix:
