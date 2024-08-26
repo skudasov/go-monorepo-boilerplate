@@ -6,5 +6,6 @@ func main() {
 	// some minor changes
 	// more minor changes
 	// major changes
+	// more changes
 	three.Three(1, 2)
 }
