@@ -90,46 +90,46 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.22.6'
-      - name: Install gorelease tool
-        run: |
-          go install golang.org/x/exp/cmd/gorelease@latest
-      - name: Run gorelease to check for breaking changes
-        working-directory: ${{ env.PACKAGE_NAME }}
-        id: check_breaking_changes
-        run: |
-          # Find the latest tag for the same package that is not the current tag
-          LAST_TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
-
-          TAG="${LAST_TAG#*/}"
-
-          echo "Cleaned up tag: ${TAG}"
-
-          # Run gorelease to check for breaking changes, capture output and exit code
-          gorelease_output=$(gorelease -base "${TAG}" -version "${VERSION}" 2>&1)
-          gorelease_exit_code=$?
-
-          # Check if gorelease command failed
-          if [ $gorelease_exit_code -ne 0 ]; then
-            echo "gorelease command failed with exit code $gorelease_exit_code"
-            echo "Output:"
-            echo "$gorelease_output"
-            # Continue even if gorelease fails
-          else
-            # Parse output for breaking changes
-            BREAKING_CHANGES=$(echo "$gorelease_output" | grep "Breaking changes")
-
-            # Output breaking changes
-            echo "Breaking Changes:"
-            echo "$BREAKING_CHANGES"
-
-            # Check if there are any breaking changes
-            if [ -n "$BREAKING_CHANGES" ]; then
-              # Safely set breaking changes as an environment variable using heredoc
-              echo "BREAKING_CHANGES<<EOF" >> $GITHUB_ENV
-              echo "$BREAKING_CHANGES" >> $GITHUB_ENV
-              echo "EOF" >> $GITHUB_ENV
-            fi
-          fi
+#      - name: Install gorelease tool
+#        run: |
+#          go install golang.org/x/exp/cmd/gorelease@latest
+#      - name: Run gorelease to check for breaking changes
+#        working-directory: ${{ env.PACKAGE_NAME }}
+#        id: check_breaking_changes
+#        run: |
+#          # Find the latest tag for the same package that is not the current tag
+#          LAST_TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
+#
+#          TAG="${LAST_TAG#*/}"
+#
+#          echo "Cleaned up tag: ${TAG}"
+#
+#          # Run gorelease to check for breaking changes, capture output and exit code
+#          gorelease_output=$(gorelease -base "${TAG}" -version "${VERSION}" 2>&1)
+#          gorelease_exit_code=$?
+#
+#          # Check if gorelease command failed
+#          if [ $gorelease_exit_code -ne 0 ]; then
+#            echo "gorelease command failed with exit code $gorelease_exit_code"
+#            echo "Output:"
+#            echo "$gorelease_output"
+#            # Continue even if gorelease fails
+#          else
+#            # Parse output for breaking changes
+#            BREAKING_CHANGES=$(echo "$gorelease_output" | grep "Breaking changes")
+#
+#            # Output breaking changes
+#            echo "Breaking Changes:"
+#            echo "$BREAKING_CHANGES"
+#
+#            # Check if there are any breaking changes
+#            if [ -n "$BREAKING_CHANGES" ]; then
+#              # Safely set breaking changes as an environment variable using heredoc
+#              echo "BREAKING_CHANGES<<EOF" >> $GITHUB_ENV
+#              echo "$BREAKING_CHANGES" >> $GITHUB_ENV
+#              echo "EOF" >> $GITHUB_ENV
+#            fi
+#          fi
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
