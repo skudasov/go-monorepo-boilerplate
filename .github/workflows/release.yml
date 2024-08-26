@@ -20,28 +20,26 @@ jobs:
       - name: Extract Package Name from Tag
         id: extract_package_name
         run: |
-          # Extract the full ref of the tag
           TAG_REF="${GITHUB_REF#refs/tags/}"
-
-          # Extract package name from the tag
           PACKAGE_NAME=$(echo "$TAG_REF" | cut -d'/' -f1)
-
-          # Extract the version from the tag
           VERSION=$(echo "$TAG_REF" | cut -d'/' -f2)
-
-          # Print extracted values
           echo "Tag Reference: $TAG_REF"
           echo "Package Name: $PACKAGE_NAME"
           echo "Version: $VERSION"
-
-          # Set package name and version as output variables
+          
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-
       - name: Show Package Name and Version
         run: |
           echo "Package Name: ${{ env.PACKAGE_NAME }}"
           echo "Version: ${{ env.VERSION }}"
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sudo apt-get install -y gh
+          echo "${GITHUB_TOKEN}" | gh auth login --with-token
+          gh release create "${{ env.VERSION }}" --title "${{ env.PACKAGE_NAME }} v${{ env.VERSION }}" --notes "Release for ${{ env.PACKAGE_NAME }} version ${{ env.VERSION }}"
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
