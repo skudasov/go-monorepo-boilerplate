@@ -23,5 +23,9 @@ This repository serves as an example of using multiple modules/binaries under on
    In contradiction to official [docs] `require` won't work in you'll use `module/vX.X.X` tag so if you want to update `go.mod` manually use tag notation without module, ex.: `github.com/skudasov/go-monorepo-boilerplate/one v1.2.0`
 
 4. Your module may have a binary release. Entrypoint must be under `cmd` and named as a package.
+
+   Create a file under `.release_notes` and describe your changes
    
-   After pushing a tag workflow will automatically create a release for `$package/vX.X.X` and publish binaries to [releases](https://github.com/skudasov/go-monorepo-boilerplate/releases) page
+   After pushing a tag workflow will automatically create a release for `$package/vX.X.X` and publish binaries to [releases](https://github.com/skudasov/go-monorepo-boilerplate/releases) page.
+
+   It'd also print all commits that were introduced in current release.
