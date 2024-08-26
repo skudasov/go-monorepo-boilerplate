@@ -61,23 +61,17 @@ jobs:
             # Read the content of the file
             ADDITIONAL_NOTES=$(cat ".release_notes/${{ env.VERSION }}.md")
 
-            # Surround the additional notes with newlines
-            ADDITIONAL_NOTES="\n\n${ADDITIONAL_NOTES}\n\n"
-
-            # Append the additional notes to the existing release notes
-            FULL_RELEASE_NOTES="${{ env.RELEASE_NOTES }}${ADDITIONAL_NOTES}"
-
-            # Output the combined release notes
-            echo "Full Release Notes:"
-            echo "$FULL_RELEASE_NOTES"
+            # Surround the additional notes with newlines safely using heredoc
+            echo "FULL_RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+            echo "${{ env.RELEASE_NOTES }}" >> $GITHUB_ENV
+            echo "" >> $GITHUB_ENV
+            echo "$ADDITIONAL_NOTES" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
           else
             # Print error message and fail the pipeline if the file is not found
             echo "Error: Release notes file '.release_notes/${{ env.VERSION }}.md' not found."
             exit 1
           fi
-
-          # Set the full release notes as an environment variable
-          echo "FULL_RELEASE_NOTES=$FULL_RELEASE_NOTES" >> $GITHUB_ENV
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
