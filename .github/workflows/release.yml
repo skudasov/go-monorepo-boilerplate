@@ -37,7 +37,7 @@ jobs:
         id: generate_release_notes
         run: |
           # Find the latest tag for the same package that is not the current tag
-          LAST_TAG=$(git tag --sort=creatordate --merged | grep "^$(git describe --tags --abbrev=0 | cut -d'/' -f1)/v[0-9]*\.[0-9]*\.[0-9]*$" | grep -B1 -A1 $(git describe --tags --abbrev=0) | head -n1)
+          LAST_TAG=$(git describe --abbrev=0 --match "$PACKAGE_NAME/v*" --tags $(git rev-list --tags --skip=1 --max-count=1))
 
           # If no previous tag is found, use the initial commit as the reference
           if [ -z "$LAST_TAG" ]; then
