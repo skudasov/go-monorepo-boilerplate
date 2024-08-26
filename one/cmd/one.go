@@ -6,5 +6,6 @@ func main() {
 	// major release
 	// another major feature
 	// another major feature 2
+	// small fix
 	one.One(1, 2)
 }
