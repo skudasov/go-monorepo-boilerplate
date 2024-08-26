@@ -8,3 +8,5 @@ github.com/skudasov/go-monorepo-boilerplate/two/v2 v2.0.9 h1:HB780XLA0Uo0c72mLtL
 github.com/skudasov/go-monorepo-boilerplate/two/v2 v2.0.9/go.mod h1:YOASeRux2+EDs38zzwGSWUU1MD7ytCcUB8mlxnfN1/s=
 github.com/skudasov/go-monorepo-boilerplate/two/v2 v2.1.1 h1:2fpe5n6arXY2AdPTnrd4GjbutKiBt22sfAujjO1PxkY=
 github.com/skudasov/go-monorepo-boilerplate/two/v2 v2.1.1/go.mod h1:YOASeRux2+EDs38zzwGSWUU1MD7ytCcUB8mlxnfN1/s=
+github.com/skudasov/go-monorepo-boilerplate/two/v2 v2.1.2 h1:8t9FBmzLvnJmEVL+lBFOt+URZddOFkF+Pte3d9qpqek=
+github.com/skudasov/go-monorepo-boilerplate/two/v2 v2.1.2/go.mod h1:YOASeRux2+EDs38zzwGSWUU1MD7ytCcUB8mlxnfN1/s=
