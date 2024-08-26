@@ -45,7 +45,7 @@ jobs:
           fi
 
           # Get the commits between the last tag and the current tag
-          COMMITS=$(git log "$LAST_TAG..${GITHUB_SHA}" --pretty=format:"- %s (%h)")
+          COMMITS=$(git log "$LAST_TAG..$VERSION" --pretty=format:"- %s (%h)")
 
           # Output the release notes
           echo "Release notes:"
