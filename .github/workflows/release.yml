@@ -44,6 +44,8 @@ jobs:
             LAST_TAG=$(git rev-list --max-parents=0 HEAD)
           fi
           
+          echo "Last tag found: $LAST_TAG"
+          
           TAG_REF="${GITHUB_REF#refs/tags/}"
 
           # Get the commits between the last tag and the current tag
