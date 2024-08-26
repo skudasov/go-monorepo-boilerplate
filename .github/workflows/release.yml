@@ -21,7 +21,7 @@ jobs:
         env:
           APP_PATH: ${{ matrix.app_path }}
         id: split
-        run: echo "::set-output name=fragment::$(echo ${{ matrix.app_path}} | sed 's|/.*||')"
+        run: echo "::set-output name=fragment::$(echo ${{ matrix.app_path }} | sed 's|/.*||')"
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
