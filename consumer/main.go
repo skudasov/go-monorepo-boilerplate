@@ -8,6 +8,6 @@ import (
 
 func main() {
 	one.One(1, 2, 3)
-	two.Two(1, 2, 3)
+	two.Two(1, 2)
 	three.Three(1, 2)
 }
